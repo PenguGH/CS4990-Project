@@ -1,5 +1,29 @@
-type Note @model @auth(rules: [{ allow: public }]) {
+type BoardGame {
   id: ID!
   name: String!
+  description: String!
+  quantity: Int!
+}
+
+input CreateBoardGameInput {
+  name: String!
+  description: String!
+  quantity: Int!
+}
+
+input UpdateBoardGameInput {
+  id: ID!
+  name: String
   description: String
+  quantity: Int
+}
+
+type Query {
+  listBoardGames: [BoardGame]
+}
+
+type Mutation {
+  createBoardGame(input: CreateBoardGameInput!): BoardGame
+  updateBoardGame(input: UpdateBoardGameInput!): BoardGame
+  deleteBoardGame(id: ID!): BoardGame
 }
