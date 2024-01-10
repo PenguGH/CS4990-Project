@@ -40,6 +40,7 @@ const App = ({ signOut }) => {
       id: form.get("id"),
       name: form.get("name"),
       description: form.get("description"),
+      quantity: form.get("quantity"),
       price: form.get("price"),
     };
     await client.graphql({
@@ -51,9 +52,7 @@ const App = ({ signOut }) => {
   }
 
   async function deleteBoardGame({ id }) {
-    const newBoardGames = boardGames.filter(
-      (boardGame) => boardGame.id !== id
-    );
+    const newBoardGames = boardGames.filter((boardGame) => boardGame.id !== id);
     setBoardGames(newBoardGames);
     await client.graphql({
       query: deleteBoardGameMutation,
@@ -91,6 +90,14 @@ const App = ({ signOut }) => {
             required
           />
           <TextField
+            name="quantity"
+            placeholder="Quantity"
+            label="Board Game Quantity"
+            labelHidden
+            variation="quiet"
+            required
+          />
+          <TextField
             name="price"
             placeholder="Price"
             label="Board Game Price"
@@ -123,10 +130,7 @@ const App = ({ signOut }) => {
             <Text as="span">{boardGame.name}</Text>
             <Text as="span">{boardGame.description}</Text>
             <Text as="span">{boardGame.price}</Text>
-            <Button
-              variation="link"
-              onClick={() => deleteBoardGame(boardGame)}
-            >
+            <Button variation="link" onClick={() => deleteBoardGame(boardGame)}>
               Delete Board Game
             </Button>
           </Flex>
