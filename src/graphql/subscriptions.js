@@ -1,36 +1,48 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateNote = /* GraphQL */ `
-  subscription OnCreateNote($filter: ModelSubscriptionNoteFilterInput) {
-    onCreateNote(filter: $filter) {
+export const onCreateBoardGame = /* GraphQL */ `
+  subscription OnCreateBoardGame(
+    $filter: ModelSubscriptionBoardGameFilterInput
+  ) {
+    onCreateBoardGame(filter: $filter) {
       id
       name
       description
+      quantity
+      price
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onUpdateNote = /* GraphQL */ `
-  subscription OnUpdateNote($filter: ModelSubscriptionNoteFilterInput) {
-    onUpdateNote(filter: $filter) {
+export const onUpdateBoardGame = /* GraphQL */ `
+  subscription OnUpdateBoardGame(
+    $filter: ModelSubscriptionBoardGameFilterInput
+  ) {
+    onUpdateBoardGame(filter: $filter) {
       id
       name
       description
+      quantity
+      price
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onDeleteNote = /* GraphQL */ `
-  subscription OnDeleteNote($filter: ModelSubscriptionNoteFilterInput) {
-    onDeleteNote(filter: $filter) {
+export const onDeleteBoardGame = /* GraphQL */ `
+  subscription OnDeleteBoardGame(
+    $filter: ModelSubscriptionBoardGameFilterInput
+  ) {
+    onDeleteBoardGame(filter: $filter) {
       id
       name
       description
+      quantity
+      price
       createdAt
       updatedAt
       __typename

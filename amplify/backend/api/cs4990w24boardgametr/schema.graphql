@@ -1,5 +1,8 @@
-type Note @model @auth(rules: [{ allow: public }]) {
+type BoardGame @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
-  description: String
+  description: String!
+  quantity: Int!
+  price: Float!
 }
+ 

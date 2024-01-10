@@ -1,45 +1,51 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createNote = /* GraphQL */ `
-  mutation CreateNote(
-    $input: CreateNoteInput!
-    $condition: ModelNoteConditionInput
+export const createBoardGame = /* GraphQL */ `
+  mutation CreateBoardGame(
+    $input: CreateBoardGameInput!
+    $condition: ModelBoardGameConditionInput
   ) {
-    createNote(input: $input, condition: $condition) {
+    createBoardGame(input: $input, condition: $condition) {
       id
       name
       description
+      quantity
+      price
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const updateNote = /* GraphQL */ `
-  mutation UpdateNote(
-    $input: UpdateNoteInput!
-    $condition: ModelNoteConditionInput
+export const updateBoardGame = /* GraphQL */ `
+  mutation UpdateBoardGame(
+    $input: UpdateBoardGameInput!
+    $condition: ModelBoardGameConditionInput
   ) {
-    updateNote(input: $input, condition: $condition) {
+    updateBoardGame(input: $input, condition: $condition) {
       id
       name
       description
+      quantity
+      price
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const deleteNote = /* GraphQL */ `
-  mutation DeleteNote(
-    $input: DeleteNoteInput!
-    $condition: ModelNoteConditionInput
+export const deleteBoardGame = /* GraphQL */ `
+  mutation DeleteBoardGame(
+    $input: DeleteBoardGameInput!
+    $condition: ModelBoardGameConditionInput
   ) {
-    deleteNote(input: $input, condition: $condition) {
+    deleteBoardGame(input: $input, condition: $condition) {
       id
       name
       description
+      quantity
+      price
       createdAt
       updatedAt
       __typename
