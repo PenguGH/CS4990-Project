@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
-import { generateClient  } from "aws-amplify/api";
+import { generateClient } from "aws-amplify/api";
 import {
   Button,
   Flex,
@@ -11,47 +11,52 @@ import {
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { listNotes } from "./graphql/queries";
+import { listBoardGames, getBoardGame } from "./graphql/queries";
 import {
-  createNote as createNoteMutation,
-  deleteNote as deleteNoteMutation,
+  createBoardGame as createBoardGameMutation,
+  deleteBoardGame as deleteBoardGameMutation,
 } from "./graphql/mutations";
 
 const client = generateClient();
 
 const App = ({ signOut }) => {
-  const [notes, setNotes] = useState([]);
+  const [boardGames, setBoardGames] = useState([]);
 
   useEffect(() => {
-    fetchNotes();
+    fetchBoardGames();
   }, []);
 
-  async function fetchNotes() {
-    const apiData = await client.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
-    setNotes(notesFromAPI);
+  async function fetchBoardGames() {
+    const apiData = await client.graphql({ query: listBoardGames });
+    const boardGamesFromAPI = apiData.data.listBoardGames.items;
+    setBoardGames(boardGamesFromAPI);
   }
 
-  async function createNote(event) {
+  // this is to create new board games
+  async function submitBoardGame(event) {
     event.preventDefault();
     const form = new FormData(event.target);
     const data = {
+      id: form.get("id"),
       name: form.get("name"),
       description: form.get("description"),
+      price: form.get("price"),
     };
     await client.graphql({
-      query: createNoteMutation,
+      query: createBoardGameMutation,
       variables: { input: data },
     });
-    fetchNotes();
+    fetchBoardGames();
     event.target.reset();
   }
 
-  async function deleteNote({ id }) {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
+  async function deleteBoardGame({ id }) {
+    const newBoardGames = boardGames.filter(
+      (boardGame) => boardGame.id !== id
+    );
+    setBoardGames(newBoardGames);
     await client.graphql({
-      query: deleteNoteMutation,
+      query: deleteBoardGameMutation,
       variables: { input: { id } },
     });
   }
@@ -59,44 +64,70 @@ const App = ({ signOut }) => {
   return (
     <View className="App">
       <Heading level={1}>Board Game Tracker</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
+      <View as="form" margin="3rem 0" onSubmit={submitBoardGame}>
         <Flex direction="row" justifyContent="center">
           <TextField
+            name="id"
+            placeholder="id"
+            label="Board Game id"
+            labelHidden
+            variation="quiet"
+            required
+          />
+          <TextField
             name="name"
-            placeholder="Note Name"
-            label="Note Name"
+            placeholder="Name"
+            label="Board Game Name"
             labelHidden
             variation="quiet"
             required
           />
           <TextField
             name="description"
-            placeholder="Note Description"
-            label="Note Description"
+            placeholder="Description"
+            label="Board Game Description"
+            labelHidden
+            variation="quiet"
+            required
+          />
+          <TextField
+            name="price"
+            placeholder="Price"
+            label="Board Game Price"
             labelHidden
             variation="quiet"
             required
           />
           <Button type="submit" variation="primary">
-            Create Note
+            Create Board Game
           </Button>
         </Flex>
       </View>
-      <Heading level={2}>Current Notes</Heading>
+      <Heading level={2}>Inventory Details</Heading>
       <View margin="3rem 0">
-        {notes.map((note) => (
+        {boardGames.map((boardGame) => (
           <Flex
-            key={note.id || note.name}
+            key={
+              boardGame.id ||
+              boardGame.name ||
+              boardGame.description ||
+              boardGame.price
+            }
             direction="row"
             justifyContent="center"
             alignItems="center"
           >
             <Text as="strong" fontWeight={700}>
-              {note.name}
+              {boardGame.id}
             </Text>
-            <Text as="span">{note.description}</Text>
-            <Button variation="link" onClick={() => deleteNote(note)}>
-              Delete note
+            <Text as="span">{boardGame.name}</Text>
+            <Text as="span">{boardGame.description}</Text>
+            <Text as="span">{boardGame.price}</Text>
+            <Button
+              variation="link"
+              onClick={() => deleteBoardGame(boardGame)}
+            >
+              Delete Board Game
             </Button>
           </Flex>
         ))}
