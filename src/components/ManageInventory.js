@@ -310,6 +310,7 @@ const ManageInventory = () => {
                       variation="link"
                       onClick={() => deleteBoardGame(boardGame)}
                     >
+                      Delete
                     </Button>
                   </td>
                 </tr>
