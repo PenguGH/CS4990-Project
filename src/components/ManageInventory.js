@@ -25,6 +25,7 @@ const ManageInventory = () => {
     const apiData = await client.graphql({ query: listBoardGames });
     const boardGamesFromAPI = apiData.data.listBoardGames.items;
     setBoardGames(boardGamesFromAPI);
+
     return boardGamesFromAPI;
   }
 
@@ -82,7 +83,7 @@ const ManageInventory = () => {
 
   async function editBoardGame(id) {
     const boardGameInfo = await getBoardGameInfo(id);
-    setEditingBoardGame(boardGameInfo);
+    setEditingBoardGame(boardGameInfo.id); // Set the correct id for the board game
   }
 
   async function updateBoardGameField(id, field, value) {
@@ -96,10 +97,28 @@ const ManageInventory = () => {
     setBoardGames(updatedBoardGames);
   }
 
+  // save board games after editing works locally
+  // async function saveBoardGame(id) {
+  //   setEditingBoardGame(null);
+  //   // Perform additional logic or API calls to save changes
+  // }
+
+
+  // save board games to amplify does not work
   async function saveBoardGame(id) {
+    const editedBoardGame = boardGames.find((boardGame) => boardGame.id === id);
+    // Perform additional logic or API calls to save changes
+  
+    // Perfrom an API call to update the board game on AWS Amplify server
+    await updateBoardGame(editedBoardGame);
+  
+    // Reset editing state since you are done editing the board game.
     setEditingBoardGame(null);
-    // Here you can perform any additional logic or API calls to save the changes
+  
+    // Refetching the board games from the Amplify server to make sure the local state and remote state are the same.
+    await fetchBoardGames();
   }
+
 
   return (
     <Flex direction="column" alignItems="center">

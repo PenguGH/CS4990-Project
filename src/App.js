@@ -8,6 +8,8 @@ import Header from "./components/header.js";
 import ManageInventory from "./components/ManageInventory.js";
 import GenerateReport from "./components/GenerateReport.js";
 import Archives from "./components/Archives.js";
+import boardgames from './images/boardgames.jpg';
+
 
 const App = ({ signOut }) => {
   return (
@@ -24,7 +26,8 @@ const App = ({ signOut }) => {
       </>
       <View className="App">
         <div>
-          <h1>Hello</h1>
+          <h1>Hello, start managing your board game inventory today!</h1>
+          <img src= {boardgames} alt=""/>
         </div>
         <div></div>
         <Button onClick={signOut}>Sign Out</Button>
