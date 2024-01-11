@@ -16,6 +16,8 @@ const ManageInventory = () => {
 
   const [boardGames, setBoardGames] = useState([]);
   const [editingBoardGame, setEditingBoardGame] = useState(null);
+  const [totalNumberOfBoardGames, setTotalNumberOfBoardGames] = useState(0);
+  const [totalCostOfBoardGames, setTotalCostOfBoardGames] = useState(0);
 
   useEffect(() => {
     fetchBoardGames();
@@ -25,6 +27,19 @@ const ManageInventory = () => {
     const apiData = await client.graphql({ query: listBoardGames });
     const boardGamesFromAPI = apiData.data.listBoardGames.items;
     setBoardGames(boardGamesFromAPI);
+
+    // counts the total # of board games
+    setTotalNumberOfBoardGames(boardGamesFromAPI.length);
+
+    // calculates the total cost of all board games
+    // by iterating through the board games array and is the summation of the product
+    // of each board game's quantity and price
+    const calculateInventoryValue = boardGamesFromAPI.reduce(
+      (accumulator, boardGame) => accumulator + boardGame.quantity * boardGame.price,
+      0
+    );
+
+    setTotalCostOfBoardGames(calculateInventoryValue);
 
     return boardGamesFromAPI;
   }
@@ -170,7 +185,7 @@ const ManageInventory = () => {
         </Flex>
       </View>
       <Flex direction="column" alignItems="center">
-        <Heading level={2}>Inventory Details</Heading>
+        <Heading level={2}>Inventory Details | Total Cost: ${totalCostOfBoardGames.toFixed(2)}</Heading>
         <View margin="3rem 0">
           <table style={{ borderCollapse: "collapse", width: "80%" }}>
             <thead>
@@ -291,6 +306,7 @@ const ManageInventory = () => {
               ))}
             </tbody>
           </table>
+          <h2>Total Number of Board Games: {totalNumberOfBoardGames}</h2>
         </View>
       </Flex>
     </Flex>
