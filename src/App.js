@@ -1,143 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
-import { generateClient } from "aws-amplify/api";
-import {
-  Button,
-  Flex,
-  Heading,
-  Text,
-  TextField,
-  View,
-  withAuthenticator,
-} from "@aws-amplify/ui-react";
-import { listBoardGames, getBoardGame } from "./graphql/queries";
-import {
-  createBoardGame as createBoardGameMutation,
-  deleteBoardGame as deleteBoardGameMutation,
-} from "./graphql/mutations";
+import { Button, View, withAuthenticator } from "@aws-amplify/ui-react";
 
-const client = generateClient();
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Header from "./components/header.js";
+import ManageInventory from "./components/ManageInventory.js";
+import GenerateReport from "./components/GenerateReport.js";
+import Archives from "./components/Archives.js";
 
 const App = ({ signOut }) => {
-  const [boardGames, setBoardGames] = useState([]);
-
-  useEffect(() => {
-    fetchBoardGames();
-  }, []);
-
-  async function fetchBoardGames() {
-    const apiData = await client.graphql({ query: listBoardGames });
-    const boardGamesFromAPI = apiData.data.listBoardGames.items;
-    setBoardGames(boardGamesFromAPI);
-  }
-
-  // this is to create new board games
-  async function submitBoardGame(event) {
-    event.preventDefault();
-    const form = new FormData(event.target);
-    const data = {
-      id: form.get("id"),
-      name: form.get("name"),
-      description: form.get("description"),
-      quantity: form.get("quantity"),
-      price: form.get("price"),
-    };
-    await client.graphql({
-      query: createBoardGameMutation,
-      variables: { input: data },
-    });
-    fetchBoardGames();
-    event.target.reset();
-  }
-
-  async function deleteBoardGame({ id }) {
-    const newBoardGames = boardGames.filter((boardGame) => boardGame.id !== id);
-    setBoardGames(newBoardGames);
-    await client.graphql({
-      query: deleteBoardGameMutation,
-      variables: { input: { id } },
-    });
-  }
-
   return (
-    <View className="App">
-      <Heading level={1}>Board Game Tracker</Heading>
-      <View as="form" margin="3rem 0" onSubmit={submitBoardGame}>
-        <Flex direction="row" justifyContent="center">
-          <TextField
-            name="id"
-            placeholder="id"
-            label="Board Game id"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="name"
-            placeholder="Name"
-            label="Board Game Name"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="description"
-            placeholder="Description"
-            label="Board Game Description"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="quantity"
-            placeholder="Quantity"
-            label="Board Game Quantity"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="price"
-            placeholder="Price"
-            label="Board Game Price"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <Button type="submit" variation="primary">
-            Create Board Game
-          </Button>
-        </Flex>
+    <>
+      <>
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/manage-inventory" element={<ManageInventory />} />
+            <Route path="/generate-report" element={<GenerateReport />} />
+            <Route path="/archives" element={<ManageInventory />} />
+          </Routes>
+        </Router>
+      </>
+      <View className="App">
+        <div>
+          <h1>Hello</h1>
+        </div>
+        <div></div>
+        <Button onClick={signOut}>Sign Out</Button>
       </View>
-      <Heading level={2}>Inventory Details</Heading>
-      <View margin="3rem 0">
-        {boardGames.map((boardGame) => (
-          <Flex
-            key={
-              boardGame.id ||
-              boardGame.name ||
-              boardGame.description ||
-              boardGame.price
-            }
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Text as="strong" fontWeight={700}>
-              {boardGame.id}
-            </Text>
-            <Text as="span">{boardGame.name}</Text>
-            <Text as="span">{boardGame.description}</Text>
-            <Text as="span">{boardGame.price}</Text>
-            <Button variation="link" onClick={() => deleteBoardGame(boardGame)}>
-              Delete Board Game
-            </Button>
-          </Flex>
-        ))}
-      </View>
-      <Button onClick={signOut}>Sign Out</Button>
-    </View>
+    </>
   );
 };
 
