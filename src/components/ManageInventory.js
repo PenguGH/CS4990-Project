@@ -17,6 +17,7 @@ const ManageInventory = () => {
   const [boardGames, setBoardGames] = useState([]);
   const [editingBoardGame, setEditingBoardGame] = useState(null);
   const [totalNumberOfUniqueBoardGames, setTotalNumberOfUniqueBoardGames] = useState(0);
+  const [totalNumberOfItems, setTotalNumberOfItems] = useState(0);
   const [totalCostOfBoardGames, setTotalCostOfBoardGames] = useState(0);
 
   useEffect(() => {
@@ -28,11 +29,12 @@ const ManageInventory = () => {
     const boardGamesFromAPI = apiData.data.listBoardGames.items;
     setBoardGames(boardGamesFromAPI);
 
-    // counts the total # of unique board games in the inventory
+    // only counts the total # of unique board games in the inventory.
+    // So you know how many different board games you have in stock.
     setTotalNumberOfUniqueBoardGames(boardGamesFromAPI.length);
 
     // calculates the total cost of all board games
-    // by iterating through the board games array and is the summation of the product
+    // by iterating through the board games array and is the summation of the resulting product
     // of each board game's quantity and price
     const calculateInventoryValue = boardGamesFromAPI.reduce(
       (accumulator, boardGame) => accumulator + boardGame.quantity * boardGame.price,
@@ -40,6 +42,15 @@ const ManageInventory = () => {
     );
 
     setTotalCostOfBoardGames(calculateInventoryValue);
+
+    // calculates the total # of all items in your inventory
+    // so you know how many board games in total you have in stock to sell
+    const calculateTotalNumberOfItems = boardGamesFromAPI.reduce(
+      (acumulator, boardGame) => acumulator + boardGame.quantity, 
+      0
+    );
+
+    setTotalNumberOfItems(calculateTotalNumberOfItems);
 
     return boardGamesFromAPI;
   }
@@ -299,7 +310,6 @@ const ManageInventory = () => {
                       variation="link"
                       onClick={() => deleteBoardGame(boardGame)}
                     >
-                      Delete
                     </Button>
                   </td>
                 </tr>
@@ -307,6 +317,7 @@ const ManageInventory = () => {
             </tbody>
           </table>
           <h2>Total Number of Unique Board Games: {totalNumberOfUniqueBoardGames}</h2>
+          <h2>Total Number of Items: {totalNumberOfItems}</h2>
         </View>
       </Flex>
     </Flex>
