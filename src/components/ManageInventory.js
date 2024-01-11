@@ -16,7 +16,8 @@ const ManageInventory = () => {
 
   const [boardGames, setBoardGames] = useState([]);
   const [editingBoardGame, setEditingBoardGame] = useState(null);
-  const [totalNumberOfUniqueBoardGames, setTotalNumberOfUniqueBoardGames] = useState(0);
+  const [totalNumberOfUniqueBoardGames, setTotalNumberOfUniqueBoardGames] =
+    useState(0);
   const [totalCostOfBoardGames, setTotalCostOfBoardGames] = useState(0);
 
   useEffect(() => {
@@ -35,7 +36,8 @@ const ManageInventory = () => {
     // by iterating through the board games array and is the summation of the product
     // of each board game's quantity and price
     const calculateInventoryValue = boardGamesFromAPI.reduce(
-      (accumulator, boardGame) => accumulator + boardGame.quantity * boardGame.price,
+      (accumulator, boardGame) =>
+        accumulator + boardGame.quantity * boardGame.price,
       0
     );
 
@@ -118,22 +120,31 @@ const ManageInventory = () => {
   //   // Perform additional logic or API calls to save changes
   // }
 
-
   // save board games to amplify does not work
   async function saveBoardGame(id) {
     const editedBoardGame = boardGames.find((boardGame) => boardGame.id === id);
-    // Perform additional logic or API calls to save changes
-  
-    // Perfrom an API call to update the board game on AWS Amplify server
-    await updateBoardGame(editedBoardGame);
-  
-    // Reset editing state since you are done editing the board game.
-    setEditingBoardGame(null);
-  
-    // Refetching the board games from the Amplify server to make sure the local state and remote state are the same.
-    await fetchBoardGames();
-  }
 
+    try {
+      const updatedData = {
+        id: editedBoardGame.id,
+        name: editedBoardGame.name,
+        description: editedBoardGame.description,
+        quantity: editedBoardGame.quantity,
+        price: editedBoardGame.price,
+      };
+
+      // Perfrom an API call to update the board game on AWS Amplify server
+      await updateBoardGame(updatedData);
+
+      // Reset editing state since you are done editing the board game.
+      setEditingBoardGame(null);
+
+      // Refetching the board games from the Amplify server to make sure the local state and remote state are the same.
+      await fetchBoardGames();
+    } catch (error) {
+      console.error("Error updating", error);
+    }
+  }
 
   return (
     <Flex direction="column" alignItems="center">
@@ -185,7 +196,9 @@ const ManageInventory = () => {
         </Flex>
       </View>
       <Flex direction="column" alignItems="center">
-        <Heading level={2}>Inventory Details | Total Cost: ${totalCostOfBoardGames.toFixed(2)}</Heading>
+        <Heading level={2}>
+          Inventory Details | Total Cost: ${totalCostOfBoardGames.toFixed(2)}
+        </Heading>
         <View margin="3rem 0">
           <table style={{ borderCollapse: "collapse", width: "80%" }}>
             <thead>
@@ -306,7 +319,9 @@ const ManageInventory = () => {
               ))}
             </tbody>
           </table>
-          <h2>Total Number of Unique Board Games: {totalNumberOfUniqueBoardGames}</h2>
+          <h2>
+            Total Number of Unique Board Games: {totalNumberOfUniqueBoardGames}
+          </h2>
         </View>
       </Flex>
     </Flex>

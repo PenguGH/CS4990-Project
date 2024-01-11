@@ -27,16 +27,41 @@ const GenerateReport = () => {
       boardGame.price,
     ]);
 
+    const totalValue = boardGames.reduce((total, boardGame) => {
+      return total + boardGame.quantity * boardGame.price;
+    }, 0);
+
+    const totalRow = ["Total Value", "", "", "", totalValue.toFixed(2)];
+    data.push(totalRow);
+
+    const totalItems = boardGames.reduce((total, boardGame) => {
+      return total + boardGame.quantity;
+    }, 0);
+
+    const totalUniqueGames = new Set(
+      boardGames.map((boardGame) => boardGame.id)
+    ).size;
+
+    const additionalInfo = [
+      ["Total Number of Items", totalItems, "", "", ""],
+      ["Total Number of Unique Board Games", totalUniqueGames, "", "", ""],
+    ];
+
     pdf.autoTable({
       head: [headers],
       body: data,
+    });
+
+    pdf.autoTable({
+      body: additionalInfo,
+      startY: pdf.autoTable.previous.finalY + 10,
     });
 
     pdf.save("inventory.pdf");
   };
 
   return (
-    <div>
+    <div style={{ textAlign: "center", marginTop: "20px" }}>
       <button onClick={generatePDF}>Download PDF</button>
     </div>
   );

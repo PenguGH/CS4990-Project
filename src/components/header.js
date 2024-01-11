@@ -39,7 +39,6 @@ const Header = () => {
       <Nav>
         <NavLink to="/manage-inventory">Manage Inventory</NavLink>
         <NavLink to="/generate-report">Generate Report</NavLink>
-        <NavLink to="/archives">Archives</NavLink>
       </Nav>
     </HeaderContainer>
   );
