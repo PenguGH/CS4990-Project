@@ -12,8 +12,6 @@ import {
 const client = generateClient();
 
 const ManageInventory = () => {
-  console.log("ManageInventory component rendered");
-
   const [boardGames, setBoardGames] = useState([]);
   const [editingBoardGame, setEditingBoardGame] = useState(null);
   const [totalNumberOfUniqueBoardGames, setTotalNumberOfUniqueBoardGames] =
@@ -134,6 +132,7 @@ const ManageInventory = () => {
   // save board games to amplify does not work
   async function saveBoardGame(id) {
     const editedBoardGame = boardGames.find((boardGame) => boardGame.id === id);
+    // Perform additional logic or API calls to save changes
 
     try {
       const updatedData = {
@@ -210,6 +209,7 @@ const ManageInventory = () => {
         <Heading level={2}>
           Inventory Details | Total Cost: ${totalCostOfBoardGames.toFixed(2)}
         </Heading>
+
         <View margin="3rem 0">
           <table style={{ borderCollapse: "collapse", width: "80%" }}>
             <thead>
@@ -333,6 +333,7 @@ const ManageInventory = () => {
           <h2>
             Total Number of Unique Board Games: {totalNumberOfUniqueBoardGames}
           </h2>
+          <h2>Total Number of Items: {totalNumberOfItems}</h2>
         </View>
       </Flex>
     </Flex>

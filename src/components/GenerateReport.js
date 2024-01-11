@@ -3,6 +3,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { listBoardGames } from "../graphql/queries";
 import { generateClient } from "aws-amplify/api";
+
 const client = generateClient();
 
 const GenerateReport = () => {
