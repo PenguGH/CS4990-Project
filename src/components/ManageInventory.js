@@ -16,7 +16,7 @@ const ManageInventory = () => {
 
   const [boardGames, setBoardGames] = useState([]);
   const [editingBoardGame, setEditingBoardGame] = useState(null);
-  const [totalNumberOfBoardGames, setTotalNumberOfBoardGames] = useState(0);
+  const [totalNumberOfUniqueBoardGames, setTotalNumberOfUniqueBoardGames] = useState(0);
   const [totalCostOfBoardGames, setTotalCostOfBoardGames] = useState(0);
 
   useEffect(() => {
@@ -28,8 +28,8 @@ const ManageInventory = () => {
     const boardGamesFromAPI = apiData.data.listBoardGames.items;
     setBoardGames(boardGamesFromAPI);
 
-    // counts the total # of board games
-    setTotalNumberOfBoardGames(boardGamesFromAPI.length);
+    // counts the total # of unique board games in the inventory
+    setTotalNumberOfUniqueBoardGames(boardGamesFromAPI.length);
 
     // calculates the total cost of all board games
     // by iterating through the board games array and is the summation of the product
@@ -306,7 +306,7 @@ const ManageInventory = () => {
               ))}
             </tbody>
           </table>
-          <h2>Total Number of Board Games: {totalNumberOfBoardGames}</h2>
+          <h2>Total Number of Unique Board Games: {totalNumberOfUniqueBoardGames}</h2>
         </View>
       </Flex>
     </Flex>
