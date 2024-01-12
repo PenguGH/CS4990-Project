@@ -32,7 +32,7 @@ const ManageInventory = () => {
     // So you know how many different board games you have in stock.
     setTotalNumberOfUniqueBoardGames(boardGamesFromAPI.length);
 
-    // calculates the total cost of all board games
+    // calculates the total value of all board games
     // by iterating through the board games array and is the summation of the resulting product
     // of each board game's quantity and price
     const calculateInventoryValue = boardGamesFromAPI.reduce(
@@ -207,7 +207,7 @@ const ManageInventory = () => {
       </View>
       <Flex direction="column" alignItems="center">
         <Heading level={2}>
-          Inventory Details | Total Cost: ${totalCostOfBoardGames.toFixed(2)}
+          Inventory Details | Total Value: ${totalCostOfBoardGames.toFixed(2)}
         </Heading>
 
         <View margin="3rem 0">
@@ -330,10 +330,10 @@ const ManageInventory = () => {
               ))}
             </tbody>
           </table>
+          <h2>Total Number of Items: {totalNumberOfItems}</h2>
           <h2>
             Total Number of Unique Board Games: {totalNumberOfUniqueBoardGames}
           </h2>
-          <h2>Total Number of Items: {totalNumberOfItems}</h2>
         </View>
       </Flex>
     </Flex>
