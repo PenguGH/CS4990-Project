@@ -63,6 +63,8 @@ const GenerateReport = () => {
 
   return (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
+      <text>Click the download button to get your generated report!</text>
+      <br></br>
       <button onClick={generatePDF}>Download PDF</button>
     </div>
   );

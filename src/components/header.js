@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import boardgametrackerlogo from "../images/boardgametrackerlogo.PNG";
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -35,10 +36,13 @@ const NavLink = styled(Link)`
 const Header = () => {
   return (
     <HeaderContainer>
-      <Logo to="/">BoardGames.cpp</Logo>
+      {/* This redirects back to the home page */}
+      <Logo to="/">
+      <img src={boardgametrackerlogo} alt="" />
+      </Logo>
       <Nav>
-        <NavLink to="/manage-inventory">Manage Inventory</NavLink>
-        <NavLink to="/generate-report">Generate Report</NavLink>
+        <NavLink to="/manage-inventory"><b>Manage Inventory</b></NavLink>
+        <NavLink to="/generate-report"><b>Generate Report</b></NavLink>
       </Nav>
     </HeaderContainer>
   );

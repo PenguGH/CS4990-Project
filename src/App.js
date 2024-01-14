@@ -9,7 +9,7 @@ import ManageInventory from "./components/ManageInventory.js";
 import GenerateReport from "./components/GenerateReport.js";
 import boardgames from "./images/boardgames.jpg";
 
-const App = ({ signOut }) => {
+const App = ({ signOut, user }) => {
   return (
     <>
       <>
@@ -24,7 +24,7 @@ const App = ({ signOut }) => {
       <Router>
         <View className="App">
           <div>
-            <h1>Hello, start managing your board game inventory today!</h1>
+            <h1>Hello, {user.username} start managing your board game inventory today!</h1>
             <img src={boardgames} alt="" />
           </div>
           <div></div>
