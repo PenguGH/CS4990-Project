@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import boardgametrackerlogo from "../images/boardgametrackerlogo.PNG";
+// import boardgametrackerlogo from "../images/boardgametrackerlogo.PNG";
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -38,7 +38,12 @@ const Header = () => {
     <HeaderContainer>
       {/* This redirects back to the home page */}
       <Logo to="/">
-      <img src={boardgametrackerlogo} alt="" />
+      {/* <img src={boardgametrackerlogo} alt="" /> */}
+
+      {/* 3rd party image hosting */}
+      <img src="https://res.cloudinary.com/datgtai6b/image/upload/v1705210596/artistic-alley-uploads/boardgametrackerlogo_uyf01v.png"/>
+      {/* <img src="https://ibb.co/8sB25wX" alt="" />
+      <img src="https://postimg.cc/67XpZLTX" alt="" /> */}
       </Logo>
       <Nav>
         <NavLink to="/manage-inventory"><b>Manage Inventory</b></NavLink>
